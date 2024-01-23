@@ -1,26 +1,48 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="scene">
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import * as THREE from 'three';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+import {onMounted} from "vue";
+
+onMounted(()=>{
+  const loader = new FontLoader();
+
+  loader.load( '/helvetiker_regular.typeface.json', function ( font ) {
+
+    const geometry = new TextGeometry( 'Hello three.js!', {
+      font: font,
+      size: 80,
+      height: 5,
+      curveSegments: 12,
+      bevelEnabled: true,
+      bevelThickness: 10,
+      bevelSize: 8,
+      bevelSegments: 5
+    } );
+  } );
+
+
+})
+
+
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+#scene {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+#info{
+  color: white;
+  position: absolute;
+  top: 100px;
+
 }
 </style>
