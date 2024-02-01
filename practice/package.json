@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "lil-gui": "^0.19.1",
     "pinia": "^2.1.7",
     "three": "^0.160.1",
     "vue": "^3.3.11",
