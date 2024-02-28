@@ -1,5 +1,5 @@
 <template>
-    <h1>图元</h1>
+    <h1>场景图-太阳</h1>
     <canvas id="c"></canvas>
 </template>
 
