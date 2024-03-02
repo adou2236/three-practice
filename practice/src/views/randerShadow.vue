@@ -39,6 +39,17 @@ function main() {
     controls.target.set(0, 5, 0);
     controls.update();
 
+    const roomSize = 30;
+    const cubeGeo = new THREE.BoxGeometry(roomSize, roomSize, roomSize);
+    const cubeMat = new THREE.MeshPhongMaterial({
+      color: "#CCC",
+      side: THREE.BackSide,
+    });
+    const roomMesh = new THREE.Mesh(cubeGeo, cubeMat);
+    roomMesh.receiveShadow = true;
+    roomMesh.position.set(0, roomSize / 2 - 0.1 , 0);
+    scene.add(roomMesh);
+
 
     const loader = new THREE.TextureLoader();
     const planeSize = 40;
@@ -74,13 +85,7 @@ function main() {
     cube.receiveShadow = true;
     scene.add(cube);
 
-    // 通过形状与材质创建一个方块（网格）
-    const cubeMaterial2 = new THREE.MeshStandardMaterial({color: '#8AC'})
-    const cube2 = new THREE.Mesh(cubeGeometry, cubeMaterial2);
-    cube2.position.set(cubeSize + 8, cubeSize / 2, 0);
-    cube2.castShadow = true;
-    cube2.receiveShadow = true;
-    scene.add(cube2);
+
 
 
 
@@ -95,19 +100,11 @@ function main() {
     sphere.receiveShadow = true;
     scene.add(sphere);
 
-    const sphereMat2 = new THREE.MeshStandardMaterial({color: '#CA8', shininess: 1000, metalness: 1});
-    const sphere2 = new THREE.Mesh(sphereGeo, sphereMat2);
-    sphere2.position.set(-sphereRadius - 8, sphereRadius + 2, 0);
-    sphere2.castShadow = true;
-    sphere2.receiveShadow = true;
-    scene.add(sphere2);
-
 
     const directColor = 0xFFFFFF;
-    const intensity3 = 3;
-    const directionalLight = new THREE.DirectionalLight(directColor, intensity3); // 方向光，由一个平面发出的平行线
+    const intensity3 = 150;
+    const directionalLight = new THREE.PointLight(directColor, intensity3); // 方向光，由一个平面发出的平行线
     directionalLight.position.set(0, 10, 0);
-    directionalLight.target.position.set(-5, 0, 0);
     directionalLight.shadow.camera.left = 10
     directionalLight.shadow.camera.right = -10
     directionalLight.shadow.camera.top = 10
@@ -122,7 +119,7 @@ function main() {
 
 
 
-    const helper = new THREE.DirectionalLightHelper(directionalLight); // 方向光助手，可视化
+    const helper = new THREE.PointLightHelper(directionalLight); // 方向光助手，可视化
     helper.visible = false
 
 
@@ -165,14 +162,9 @@ function main() {
     const gui = new GUI();
 
     const folder2 = makeFolder('方向光', false, gui)
-    folder2.add(helper, 'visible').name('方向光助手')
-    folder2.addColor(new ColorGUIHelper(directionalLight, 'color'), 'value').name('方向光颜色');
-    folder2.add(directionalLight, 'intensity', 0, 2, 0.01).name('方向光亮度');
-    folder2.add(directionalLight.target.position, 'x', -10, 10).name('方向光x');
-    folder2.add(directionalLight.target.position, 'z', -10, 10).name('方向光y');
-    folder2.add(directionalLight.target.position, 'y', -10, 10).name('方向光z');
-    makeXYZGUI(folder2, directionalLight.position, '方向光位置', updateLight, false)
-    makeXYZGUI(folder2, directionalLight.target.position, '方向光目标', updateLight, false)
+    folder2.add(helper, 'visible').name('聚光灯助手')
+    folder2.addColor(new ColorGUIHelper(directionalLight, 'color'), 'value').name('聚光灯颜色');
+    folder2.add(directionalLight, 'intensity', 0, 200, 0.01).name('聚光灯亮度');
 
 
     function resizeRendererToDisplaySize( renderer ) {
